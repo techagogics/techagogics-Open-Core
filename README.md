@@ -2,6 +2,10 @@
 
 Welcome to the techagogics Open Core repository! This is where innovative educational tools meet collaborative development. 
 
+## Status: Experimental
+
+This repository is in it's very early phase and under construction.
+
 ## Getting Started
 
 Here's what you can do with our Open Core:
