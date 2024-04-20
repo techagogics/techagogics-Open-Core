@@ -2,11 +2,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:techagogics_open_core/provider/game_provider.dart';
+import 'package:techagogics_open_core/screens/canvas/canvas_page.dart';
 import '../widgets/game_card.dart';
-import '../screens/game_screen.dart';
+import 'quiz_game_screen.dart';
 import 'package:provider/provider.dart';
 
-class MainMenuScreen extends StatelessWidget {
+class MainMenuScreen extends StatefulWidget {
+  const MainMenuScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainMenuScreen> createState() => _MainMenuScreenState();
+}
+
+class _MainMenuScreenState extends State<MainMenuScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<GameCard> gameCards = [
+    GameCard(
+        gameTitle: 'Fake/Real-Game',
+        gameDescription: 'Become a Deepfake Detective!',
+        gameScreen: Consumer<GameProvider>(
+          builder: (context, gameProvider, child) {
+            if (gameProvider.images.isEmpty) {
+              // Beim ersten Laden oder wenn keine Bilder vorhanden sind
+              gameProvider.loadNewImages(); // Lädt neue Bilder
+              return const Center(child: CircularProgressIndicator());
+            }
+            return QuizGameScreen(images: gameProvider.images);
+          },
+        )),
+    const GameCard(
+      gameTitle: 'Canvas-Game',
+      gameDescription: 'Draw together!',
+      gameScreen: CanvasPage(),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +50,7 @@ class MainMenuScreen extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset('images/logo/techagogics_logo-bildmarke.svg'),
-            Text('Hauptmenü')
+            const Text('Hauptmenü')
           ],
         ),
       )),
@@ -29,21 +63,8 @@ class MainMenuScreen extends StatelessWidget {
           childAspectRatio:
               MediaQuery.of(context).size.width > 600 ? (3 / 2) : (1 / 2),
         ),
-        itemCount: 4, // Anzahl der Spiele
-        itemBuilder: (context, index) => GameCard(
-          gameTitle: 'Fake/Real-Spiel',
-          gameDescription: 'Finde das gefälschte Bild!',
-          gameScreen: Consumer<GameProvider>(
-            builder: (context, gameProvider, child) {
-              if (gameProvider.images.isEmpty) {
-                // Beim ersten Laden oder wenn keine Bilder vorhanden sind
-                gameProvider.loadNewImages(); // Lädt neue Bilder
-                return const Center(child: CircularProgressIndicator());
-              }
-              return GameScreen(images: gameProvider.images);
-            },
-          ),
-        ),
+        itemCount: gameCards.length, // Anzahl der Spiele
+        itemBuilder: (context, index) => gameCards[index],
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:techagogics_open_core/services/supabase_manager.dart';
 import '../services/supabase_service.dart';
 import '../models/image_model.dart';
 
@@ -15,24 +13,20 @@ class GameProvider with ChangeNotifier {
   ImageModel? _selectedImage;
   int _score = 0;
   int get score => _score;
-  late Stream<List<Map<String, dynamic>>> _gameStream;
 
-  GameProvider() {
-    _gameStream =
-        SupabaseManager.client.from('games').stream(primaryKey: ['game_id']);
-  }
-
-  Stream<List<Map<String, dynamic>>> get gameStream => _gameStream;
+  GameProvider();
 
   void selectImage(ImageModel image) {
     _selectedImage = image;
+
     // Logik, um zu bestimmen, ob die Auswahl richtig oder falsch ist
     _isCorrectChoice = image.isFake;
     if (_isCorrectChoice) {
       _score++;
     }
     notifyListeners();
-    // Verzögern Sie das Zurücksetzen der Auswahl und das Laden neuer Bilder
+
+    // Verzögere das Zurücksetzen der Auswahl und das Laden neuer Bilder
     Future.delayed(const Duration(seconds: 2), () {
       loadNewImages();
     });

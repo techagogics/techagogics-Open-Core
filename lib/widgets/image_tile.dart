@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/image_model.dart';
@@ -25,7 +27,7 @@ class ImageTile extends StatelessWidget {
     // around the InteractiveViewer.
 
     Matrix4 initialTransformation;
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size;
     initialTransformation = Matrix4.identity()
       ..scale(1.5); // Starten mit einer Skalierung von z.B. 2.0
     // ..translate(-image.width / 4, -image.height / 4); // Anpassung der Translation
@@ -64,32 +66,34 @@ class ImageTile extends StatelessWidget {
                           // Alignment fixes button zoom (to central)
                           // but causes finger zoom to not be aligned
 
-                          // alignment: Alignment.center,
+                          alignment: Alignment.center,
                           child: Stack(children: [
                             Image.network(image.url, fit: BoxFit.contain),
-                            if (circlePosition != null)
-                              Positioned(
-                                left: circlePosition!.dx - 40,
-                                top: circlePosition!.dy - 80,
-                                child: Animate(
-                                  key: UniqueKey(),
-                                  effects: const [
-                                    FadeEffect(
-                                        duration: Duration(milliseconds: 200))
-                                  ],
-                                  child: Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.blueAccent,
-                                        width: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+
+                            // ToDo: Fix circle position
+                            // if (circlePosition != null)
+                            //   Positioned(
+                            //     left: circlePosition!.dx - 40,
+                            //     top: circlePosition!.dy - 80,
+                            //     child: Animate(
+                            //       key: UniqueKey(),
+                            //       effects: const [
+                            //         FadeEffect(
+                            //             duration: Duration(milliseconds: 200))
+                            //       ],
+                            //       child: Container(
+                            //         width: 30,
+                            //         height: 30,
+                            //         decoration: BoxDecoration(
+                            //           shape: BoxShape.circle,
+                            //           border: Border.all(
+                            //             color: Colors.blueAccent,
+                            //             width: 2,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
                           ]),
                         ),
                       ),
@@ -99,7 +103,7 @@ class ImageTile extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(

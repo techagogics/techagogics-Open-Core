@@ -1,6 +1,4 @@
-// lib/widgets/game_card.dart
 import 'package:flutter/material.dart';
-// Stellen Sie sicher, dass Sie den richtigen Pfad verwenden
 
 class GameCard extends StatelessWidget {
   final String gameTitle;
@@ -17,9 +15,12 @@ class GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => gameScreen),
-      ),
+      onTap: () {
+        // subscribeToBroadcast();
+        // subscribeToChannelPresence();
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => gameScreen));
+      },
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
