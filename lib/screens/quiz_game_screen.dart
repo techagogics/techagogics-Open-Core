@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:techagogics_open_core/services/supabase/supabase_service.dart';
+// import 'package:techagogics_open_core/services/supabase/supabase_service.dart';
 import 'package:techagogics_open_core/utilities/media_queries.dart';
 import '../provider/game_provider.dart';
 import '../widgets/image_tile.dart';
@@ -20,7 +20,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
   @override
   void initState() {
     super.initState();
-    sendBroadcastMessage('Joined the Quiz Game');
+    // sendBroadcastMessage('Joined the Quiz Game');
   }
 
   @override

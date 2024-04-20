@@ -4,7 +4,7 @@ import '../services/supabase/supabase_service.dart';
 import '../models/image_model.dart';
 
 class GameProvider with ChangeNotifier {
-  // Game_01_50/50-Game
+  // Quiz Game
   List<ImageModel> _images = [];
   Set<int> _lastImageIds = {};
   List<ImageModel> get images => _images;
