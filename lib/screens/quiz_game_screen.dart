@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:techagogics_open_core/services/supabase_service.dart';
 import 'package:techagogics_open_core/utilities/media_queries.dart';
-import '../provider/game_provider.dart';
+import '../provider/quiz_game_provider.dart';
 import '../widgets/image_tile.dart';
 import '../models/image_model.dart';
 
@@ -24,7 +24,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gameProvider = Provider.of<GameProvider>(context);
+    final gameProvider = Provider.of<QuizGameProvider>(context);
 
     return Scaffold(
         appBar: AppBar(

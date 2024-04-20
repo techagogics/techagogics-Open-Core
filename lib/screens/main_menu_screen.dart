@@ -1,8 +1,8 @@
 // lib/screens/main_menu_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:techagogics_open_core/provider/game_provider.dart';
-import 'package:techagogics_open_core/screens/canvas/canvas_page.dart';
+import 'package:techagogics_open_core/provider/quiz_game_provider.dart';
+import 'package:techagogics_open_core/screens/canvas/canvas_screen.dart';
 import '../widgets/game_card.dart';
 import 'quiz_game_screen.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     GameCard(
         gameTitle: 'Fake/Real-Game',
         gameDescription: 'Become a Deepfake Detective!',
-        gameScreen: Consumer<GameProvider>(
+        gameScreen: Consumer<QuizGameProvider>(
           builder: (context, gameProvider, child) {
             if (gameProvider.images.isEmpty) {
               // Beim ersten Laden oder wenn keine Bilder vorhanden sind
@@ -37,7 +37,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     const GameCard(
       gameTitle: 'Canvas-Game',
       gameDescription: 'Draw together!',
-      gameScreen: CanvasPage(),
+      gameScreen: CanvasScreen(),
     ),
   ];
 

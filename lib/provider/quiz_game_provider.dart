@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../services/supabase_service.dart';
 import '../models/image_model.dart';
 
-class GameProvider with ChangeNotifier {
+class QuizGameProvider with ChangeNotifier {
   // Game_01_50/50-Game
   List<ImageModel> _images = [];
   Set<int> _lastImageIds = {};
@@ -14,7 +14,7 @@ class GameProvider with ChangeNotifier {
   int _score = 0;
   int get score => _score;
 
-  GameProvider();
+  QuizGameProvider();
 
   void selectImage(ImageModel image) {
     _selectedImage = image;

@@ -35,14 +35,14 @@ enum _DrawMode {
 }
 
 /// Interactive art board page to draw and collaborate with other users.
-class CanvasPage extends StatefulWidget {
-  const CanvasPage({super.key});
+class CanvasScreen extends StatefulWidget {
+  const CanvasScreen({super.key});
 
   @override
-  State<CanvasPage> createState() => _CanvasPageState();
+  State<CanvasScreen> createState() => _CanvasPageState();
 }
 
-class _CanvasPageState extends State<CanvasPage> {
+class _CanvasPageState extends State<CanvasScreen> {
   /// Holds the cursor information of other users
   final Map<String, UserCursor> _userCursors = {};
 
