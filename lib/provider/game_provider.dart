@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import '../services/supabase_service.dart';
+import '../services/supabase/supabase_service.dart';
 import '../models/image_model.dart';
 
 class GameProvider with ChangeNotifier {

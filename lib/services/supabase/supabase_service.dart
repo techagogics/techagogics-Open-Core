@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../models/image_model.dart';
+import 'package:techagogics_open_core/models/image_model.dart';
 import 'supabase_manager.dart';
 
 Future<List<Map<String, dynamic>>> fetchImages() async {

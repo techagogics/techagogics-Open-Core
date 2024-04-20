@@ -7,8 +7,8 @@ import 'package:techagogics_open_core/screens/canvas/canvas_object.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_painter.dart';
 import 'package:techagogics_open_core/screens/canvas/left_panel.dart';
 import 'package:techagogics_open_core/screens/canvas/right_panel.dart';
-import 'package:techagogics_open_core/services/supabase_manager.dart';
-import 'package:techagogics_open_core/utilities/constants.dart';
+import 'package:techagogics_open_core/services/supabase/supabase_manager.dart';
+import 'package:techagogics_open_core/services/supabase/supabase_constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:ui' as ui show Image;
@@ -78,15 +78,14 @@ class _CanvasPageState extends State<CanvasScreen> {
 
   Future<void> _initialize() async {
     // Generate a random UUID for the user.
-    // We could replace this with Supabase auth user ID if we want to make it
-    // more like Figma.
+    // We could replace this with Supabase auth user ID.
     _myId = const Uuid().v4();
 
     // Start listening to broadcast messages to display other users' cursors and objects.
     _canvasChanel = SupabaseManager.client
-        .channel(Constants.channelName)
+        .channel(Channel.canvas.name)
         .onBroadcast(
-            event: Constants.broadcastEventName,
+            event: BroadcastEvent.canvas.name,
             callback: (payload) {
               if (payload['cursor'] != null) {
                 final cursor = UserCursor.fromJson(payload['cursor']);
@@ -176,7 +175,7 @@ class _CanvasPageState extends State<CanvasScreen> {
       image = _imageCache[object.imagePath!]!;
     } else {
       final imageByteList = await SupabaseManager.client.storage
-          .from(Constants.storageBucketName)
+          .from(StorageBucket.canvas.name)
           .download(object.imagePath!);
 
       image = await decodeImageFromList(imageByteList);
@@ -197,7 +196,7 @@ class _CanvasPageState extends State<CanvasScreen> {
       id: _myId,
     );
     return _canvasChanel.sendBroadcastMessage(
-      event: Constants.broadcastEventName,
+      event: BroadcastEvent.canvas.name,
       payload: {
         'cursor': myCursor.toJson(),
         if (_selectedObjectId != null)
@@ -349,7 +348,7 @@ class _CanvasPageState extends State<CanvasScreen> {
     if (mounted) setState(() {});
 
     _canvasChanel
-        .sendBroadcastMessage(event: Constants.broadcastEventName, payload: {
+        .sendBroadcastMessage(event: BroadcastEvent.canvas.name, payload: {
       'cursor': UserCursor(position: _cursorPosition, id: _myId).toJson(),
       'delete_object': objectId,
     });

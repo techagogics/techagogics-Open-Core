@@ -3,8 +3,8 @@ import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_object.dart';
-import 'package:techagogics_open_core/services/supabase_manager.dart';
-import 'package:techagogics_open_core/utilities/constants.dart';
+import 'package:techagogics_open_core/services/supabase/supabase_manager.dart';
+import 'package:techagogics_open_core/services/supabase/supabase_constants.dart';
 
 /// Side panel on the right.
 ///
@@ -59,7 +59,7 @@ class _RightPanelState extends State<RightPanel> {
     final storagePath =
         'objects/${widget.object!.id}${DateTime.now().millisecondsSinceEpoch}';
     await SupabaseManager.client.storage
-        .from(Constants.storageBucketName)
+        .from(StorageBucket.canvas.name)
         .uploadBinary(
           storagePath,
           imageBytes,
@@ -72,7 +72,7 @@ class _RightPanelState extends State<RightPanel> {
     widget.onObjectChanged(widget.object!.copyWith(imagePath: storagePath));
     if (widget.object?.imagePath != null) {
       await SupabaseManager.client.storage
-          .from(Constants.storageBucketName)
+          .from(StorageBucket.canvas.name)
           .remove([widget.object!.imagePath!]);
     }
   }
