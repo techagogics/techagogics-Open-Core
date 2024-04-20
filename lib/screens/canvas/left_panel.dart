@@ -44,6 +44,7 @@ class LeftPanel extends StatelessWidget {
               onTap: () {
                 onObjectSelected(object.id);
               },
+              textColor: Colors.grey[700],
               title: Text(object.runtimeType.toString()),
               leading: Icon(_getObjectIcon(object)),
             );

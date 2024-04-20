@@ -1,7 +1,7 @@
 // lib/screens/main_menu_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:techagogics_open_core/provider/quiz_game_provider.dart';
+import 'package:techagogics_open_core/provider/game_provider.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_screen.dart';
 import '../widgets/game_card.dart';
 import 'quiz_game_screen.dart';
@@ -24,7 +24,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     GameCard(
         gameTitle: 'Fake/Real-Game',
         gameDescription: 'Become a Deepfake Detective!',
-        gameScreen: Consumer<QuizGameProvider>(
+        gameScreen: Consumer<GameProvider>(
           builder: (context, gameProvider, child) {
             if (gameProvider.images.isEmpty) {
               // Beim ersten Laden oder wenn keine Bilder vorhanden sind
@@ -45,15 +45,32 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
+        leadingWidth: 360,
+        backgroundColor: Colors.grey[900],
+        leading: Row(
           children: [
-            SvgPicture.asset('images/logo/techagogics_logo-bildmarke.svg'),
-            const Text('Hauptmenü')
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(horizontal: 0)),
+                    shape: MaterialStateProperty.all<CircleBorder>(
+                      const CircleBorder(),
+                    )),
+                onPressed: () {},
+                child: SvgPicture.asset(
+                  'images/logo/techagogics_logo-bildmarke.svg',
+                ),
+              ),
+            ),
+            const Text('Menu',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white)),
+            const SizedBox(width: 20),
           ],
         ),
-      )),
+      ),
       body: GridView.builder(
         padding: const EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

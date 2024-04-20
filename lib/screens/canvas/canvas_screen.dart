@@ -1,18 +1,17 @@
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_object.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_painter.dart';
 import 'package:techagogics_open_core/screens/canvas/left_panel.dart';
 import 'package:techagogics_open_core/screens/canvas/right_panel.dart';
 import 'package:techagogics_open_core/services/supabase_manager.dart';
-// import 'package:canvas/main.dart';
 import 'package:techagogics_open_core/utilities/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:ui' as ui show Image;
-import 'package:flutter/services.dart';
 
 /// Different input modes users can perform
 enum _DrawMode {
@@ -104,24 +103,32 @@ class _CanvasPageState extends State<CanvasScreen> {
                 final objectId = payload['delete_object'] as String;
                 _canvasObjects.remove(objectId);
               }
-              setState(() {});
+
+              if (mounted) {
+                setState(() {});
+              }
+              ;
             })
         .onPresenceJoin((payload) {
       final joinedId = payload.newPresences.first.payload['id'] as String;
       if (_myId == joinedId) return;
       if (!_userCursors.containsKey(joinedId)) {
-        setState(() {
-          _userCursors[joinedId] = UserCursor(
-            position: const Offset(-100, -100),
-            id: joinedId,
-          );
-        });
+        if (_userCursors[joinedId] != null) {
+          if (mounted)
+            setState(() {
+              _userCursors[joinedId] = UserCursor(
+                position: const Offset(-100, -100),
+                id: joinedId,
+              );
+            });
+        }
       }
     }).onPresenceLeave((payload) {
       final leftId = payload.leftPresences.first.payload['id'];
-      setState(() {
-        _userCursors.remove(leftId);
-      });
+      if (mounted)
+        setState(() {
+          _userCursors.remove(leftId);
+        });
     }).subscribe((status, error) {
       if (status == RealtimeSubscribeStatus.subscribed) {
         _canvasChanel.track({
@@ -135,7 +142,7 @@ class _CanvasPageState extends State<CanvasScreen> {
       final key = event.logicalKey.keyLabel;
 
       if (event is KeyDownEvent &&
-          key == 'Backspace' &&
+          (key == 'Backspace' || key == 'Delete') &&
           !_isTextFieldFocused &&
           _selectedObjectId != null) {
         _deleteCanvasObject(_selectedObjectId!);
@@ -157,7 +164,7 @@ class _CanvasPageState extends State<CanvasScreen> {
         _loadImage(canvasObject);
       }
     }
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   // Loads the image data so that they can be displayed on canvas
@@ -174,9 +181,10 @@ class _CanvasPageState extends State<CanvasScreen> {
       image = await decodeImageFromList(imageByteList);
       _imageCache[object.imagePath!] = image;
     }
-    setState(() {
-      _canvasObjects[object.id] = object.copyWith(image: image);
-    });
+    if (mounted)
+      setState(() {
+        _canvasObjects[object.id] = object.copyWith(image: image);
+      });
   }
 
   /// Syncs the user's cursor position and the currently drawing object with
@@ -252,7 +260,7 @@ class _CanvasPageState extends State<CanvasScreen> {
     }
     _cursorPosition = details.localPosition;
     _panStartPoint = details.localPosition;
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   /// Called when the user clicks and drags the canvas.
@@ -294,7 +302,7 @@ class _CanvasPageState extends State<CanvasScreen> {
 
     _cursorPosition = details.localPosition;
     if (_selectedObjectId != null) {
-      setState(() {});
+      if (mounted) setState(() {});
       _syncCanvasObject(_cursorPosition);
     }
   }
@@ -309,9 +317,10 @@ class _CanvasPageState extends State<CanvasScreen> {
     }
 
     if (_currentMode != _DrawMode.pen) {
-      setState(() {
-        _currentMode = _DrawMode.pointer;
-      });
+      if (mounted)
+        setState(() {
+          _currentMode = _DrawMode.pointer;
+        });
 
       await _saveCanvasObject(_canvasObjects[drawnObjectId]!);
     }
@@ -334,7 +343,7 @@ class _CanvasPageState extends State<CanvasScreen> {
   Future<void> _deleteCanvasObject(String objectId) async {
     _selectedObjectId = null;
     _canvasObjects.remove(objectId);
-    setState(() {});
+    if (mounted) setState(() {});
 
     _canvasChanel
         .sendBroadcastMessage(event: Constants.broadcastEventName, payload: {
@@ -360,13 +369,32 @@ class _CanvasPageState extends State<CanvasScreen> {
           backgroundColor: Colors.grey[900],
           leading: Row(
             children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.symmetric(horizontal: 0)),
+                      shape: MaterialStateProperty.all<CircleBorder>(
+                        const CircleBorder(),
+                      )),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    super.dispose();
+                  },
+                  child: SvgPicture.asset(
+                    'images/logo/techagogics_logo-bildmarke.svg',
+                  ),
+                ),
+              ),
               if (!isDrawingPolygon)
                 ..._DrawMode.values
                     .map((mode) => IconButton(
                           onPressed: () {
-                            setState(() {
-                              _currentMode = mode;
-                            });
+                            if (mounted)
+                              setState(() {
+                                _currentMode = mode;
+                              });
                           },
                           icon: Icon(mode.iconData),
                           color: _currentMode == mode
@@ -379,12 +407,13 @@ class _CanvasPageState extends State<CanvasScreen> {
               if (isDrawingPolygon)
                 FilledButton(
                   onPressed: () {
-                    setState(() {
-                      _canvasObjects[_selectedObjectId!] =
-                          (_canvasObjects[_selectedObjectId!] as Polygon)
-                              .close();
-                      _currentMode = _DrawMode.pointer;
-                    });
+                    if (mounted)
+                      setState(() {
+                        _canvasObjects[_selectedObjectId!] =
+                            (_canvasObjects[_selectedObjectId!] as Polygon)
+                                .close();
+                        _currentMode = _DrawMode.pointer;
+                      });
                     _saveCanvasObject(_canvasObjects[_selectedObjectId]!);
                   },
                   child: const Text('Done'),
@@ -408,15 +437,17 @@ class _CanvasPageState extends State<CanvasScreen> {
           ]),
       body: Row(
         children: [
-          LeftPanel(
-            objects: _canvasObjects.values.toList().reversed.toList(),
-            selectedObjectId: _selectedObjectId,
-            onObjectSelected: (objectId) {
-              setState(() {
-                _selectedObjectId = objectId;
-              });
-            },
-          ),
+          if (MediaQuery.of(context).size.width > 600)
+            LeftPanel(
+              objects: _canvasObjects.values.toList().reversed.toList(),
+              selectedObjectId: _selectedObjectId,
+              onObjectSelected: (objectId) {
+                if (mounted)
+                  setState(() {
+                    _selectedObjectId = objectId;
+                  });
+              },
+            ),
           Expanded(
             child: MouseRegion(
               onHover: (event) {
@@ -439,24 +470,27 @@ class _CanvasPageState extends State<CanvasScreen> {
               ),
             ),
           ),
-          RightPanel(
-            object: _canvasObjects[_selectedObjectId],
-            onObjectChanged: (object) async {
-              setState(() {
-                _canvasObjects[object.id] = object;
-              });
-              _syncCanvasObject();
-              if (object.imagePath != null) {
-                await _loadImage(object);
-              }
-              await _saveCanvasObject(object);
-            },
-            onFocusChange: (hasFocus) {
-              setState(() {
-                _isTextFieldFocused = hasFocus;
-              });
-            },
-          ),
+          if (MediaQuery.of(context).size.width > 600)
+            RightPanel(
+              object: _canvasObjects[_selectedObjectId],
+              onObjectChanged: (object) async {
+                if (mounted)
+                  setState(() {
+                    _canvasObjects[object.id] = object;
+                  });
+                _syncCanvasObject();
+                if (object.imagePath != null) {
+                  await _loadImage(object);
+                }
+                await _saveCanvasObject(object);
+              },
+              onFocusChange: (hasFocus) {
+                if (mounted)
+                  setState(() {
+                    _isTextFieldFocused = hasFocus;
+                  });
+              },
+            ),
         ],
       ),
     );

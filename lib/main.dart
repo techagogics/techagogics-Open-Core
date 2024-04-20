@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:techagogics_open_core/provider/quiz_game_provider.dart';
+import 'package:techagogics_open_core/provider/game_provider.dart';
 import 'package:techagogics_open_core/screens/main_menu_screen.dart';
 
 Future<void> main() async {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => QuizGameProvider(),
+      create: (context) => GameProvider(),
       child: MaterialApp(
         title: 'techagogics Open Core',
         theme: ThemeData(
