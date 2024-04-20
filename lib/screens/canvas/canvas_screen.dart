@@ -107,28 +107,29 @@ class _CanvasPageState extends State<CanvasScreen> {
               if (mounted) {
                 setState(() {});
               }
-              ;
             })
         .onPresenceJoin((payload) {
       final joinedId = payload.newPresences.first.payload['id'] as String;
       if (_myId == joinedId) return;
       if (!_userCursors.containsKey(joinedId)) {
         if (_userCursors[joinedId] != null) {
-          if (mounted)
+          if (mounted) {
             setState(() {
               _userCursors[joinedId] = UserCursor(
                 position: const Offset(-100, -100),
                 id: joinedId,
               );
             });
+          }
         }
       }
     }).onPresenceLeave((payload) {
       final leftId = payload.leftPresences.first.payload['id'];
-      if (mounted)
+      if (mounted) {
         setState(() {
           _userCursors.remove(leftId);
         });
+      }
     }).subscribe((status, error) {
       if (status == RealtimeSubscribeStatus.subscribed) {
         _canvasChanel.track({
@@ -181,10 +182,11 @@ class _CanvasPageState extends State<CanvasScreen> {
       image = await decodeImageFromList(imageByteList);
       _imageCache[object.imagePath!] = image;
     }
-    if (mounted)
+    if (mounted) {
       setState(() {
         _canvasObjects[object.id] = object.copyWith(image: image);
       });
+    }
   }
 
   /// Syncs the user's cursor position and the currently drawing object with
@@ -317,10 +319,11 @@ class _CanvasPageState extends State<CanvasScreen> {
     }
 
     if (_currentMode != _DrawMode.pen) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _currentMode = _DrawMode.pointer;
         });
+      }
 
       await _saveCanvasObject(_canvasObjects[drawnObjectId]!);
     }
@@ -391,10 +394,11 @@ class _CanvasPageState extends State<CanvasScreen> {
                 ..._DrawMode.values
                     .map((mode) => IconButton(
                           onPressed: () {
-                            if (mounted)
+                            if (mounted) {
                               setState(() {
                                 _currentMode = mode;
                               });
+                            }
                           },
                           icon: Icon(mode.iconData),
                           color: _currentMode == mode
@@ -407,13 +411,14 @@ class _CanvasPageState extends State<CanvasScreen> {
               if (isDrawingPolygon)
                 FilledButton(
                   onPressed: () {
-                    if (mounted)
+                    if (mounted) {
                       setState(() {
                         _canvasObjects[_selectedObjectId!] =
                             (_canvasObjects[_selectedObjectId!] as Polygon)
                                 .close();
                         _currentMode = _DrawMode.pointer;
                       });
+                    }
                     _saveCanvasObject(_canvasObjects[_selectedObjectId]!);
                   },
                   child: const Text('Done'),
@@ -442,10 +447,11 @@ class _CanvasPageState extends State<CanvasScreen> {
               objects: _canvasObjects.values.toList().reversed.toList(),
               selectedObjectId: _selectedObjectId,
               onObjectSelected: (objectId) {
-                if (mounted)
+                if (mounted) {
                   setState(() {
                     _selectedObjectId = objectId;
                   });
+                }
               },
             ),
           Expanded(
@@ -474,10 +480,11 @@ class _CanvasPageState extends State<CanvasScreen> {
             RightPanel(
               object: _canvasObjects[_selectedObjectId],
               onObjectChanged: (object) async {
-                if (mounted)
+                if (mounted) {
                   setState(() {
                     _canvasObjects[object.id] = object;
                   });
+                }
                 _syncCanvasObject();
                 if (object.imagePath != null) {
                   await _loadImage(object);
@@ -485,10 +492,11 @@ class _CanvasPageState extends State<CanvasScreen> {
                 await _saveCanvasObject(object);
               },
               onFocusChange: (hasFocus) {
-                if (mounted)
+                if (mounted) {
                   setState(() {
                     _isTextFieldFocused = hasFocus;
                   });
+                }
               },
             ),
         ],
