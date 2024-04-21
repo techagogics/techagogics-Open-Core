@@ -76,6 +76,7 @@ class _CanvasPageState extends State<CanvasScreen> {
     _initialize();
   }
 
+  // TODO: [Colin] Maybe move all supabase services outside of the widget tree (e.g. supbase_service.dart)
   Future<void> _initialize() async {
     // Generate a random UUID for the user.
     // We could replace this with Supabase auth user ID.
