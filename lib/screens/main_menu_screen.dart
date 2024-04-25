@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:techagogics_open_core/provider/game_provider.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_screen.dart';
 import '../widgets/game_card.dart';
-import 'quiz_game_screen.dart';
+import 'quiz/quiz_game_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainMenuScreen extends StatefulWidget {
