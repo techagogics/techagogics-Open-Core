@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:superdeck/superdeck.dart';
 
 VariantAttribute get radStyle {
   return const SlideVariant('rad')(
-    // $.h1.textStyle.as(GoogleFonts.poppins()),
+    $.h1.textStyle.as(GoogleFonts.poppins()),
     $.h1.textStyle.fontSize(140),
     $.code.decoration.border.all(
       color: Colors.red,
@@ -60,8 +60,8 @@ VariantAttribute get radStyle {
 
 VariantAttribute get customStyle {
   return const SlideVariant('custom')(
-    // $.textStyle.as(GoogleFonts.poppins()),
-    // $.h1.textStyle.as(GoogleFonts.smooch()),
+    $.textStyle.as(GoogleFonts.poppins()),
+    $.h1.textStyle.as(GoogleFonts.smooch()),
     $.h1.textStyle.fontSize(200),
     $.h1.textStyle.height(0),
     $.h1.textStyle.shadow(
@@ -101,7 +101,7 @@ VariantAttribute get customStyle {
 
 VariantAttribute get coverStyle {
   return const SlideVariant('cover')(
-    // $.h1.textStyle.as(GoogleFonts.poppins()),
+    $.h1.textStyle.as(GoogleFonts.poppins()),
     $.h1.textStyle.fontSize(100),
     $.contentContainer.gradient.linear(
       begin: Alignment.topCenter,
@@ -137,13 +137,13 @@ VariantAttribute get announcementStyle {
 
 VariantAttribute get quoteStyle {
   return const SlideVariant('quote')(
-    // $.blockquote.textStyle.as(GoogleFonts.notoSerif()),
+    $.blockquote.textStyle.as(GoogleFonts.notoSerif()),
     $.blockquote.decoration.border.left(
       width: 4,
       color: Colors.red,
     ),
     $.paragraph.textStyle.fontSize(32),
-    // $.h6.textStyle.as(GoogleFonts.notoSerif()),
+    $.h6.textStyle.as(GoogleFonts.notoSerif()),
     $.h6.textStyle.fontSize(20),
   );
 }
@@ -159,7 +159,7 @@ VariantAttribute get showSectionsStyle {
 
 Style get style {
   return Style(
-    // $.textStyle.as(GoogleFonts.poppins()),
+    $.textStyle.as(GoogleFonts.poppins()),
     customStyle,
     quoteStyle,
     showSectionsStyle,
