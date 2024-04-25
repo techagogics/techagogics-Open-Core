@@ -42,6 +42,7 @@ dependencies:
   flutter_animate: ^4.4.1
   flutter_hsvcolor_picker: ^1.5.0
   image_picker: ^1.0.8
+  superdeck: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
+    - assets/images/
     - assets/images/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see

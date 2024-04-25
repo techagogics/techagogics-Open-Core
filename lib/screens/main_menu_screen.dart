@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:techagogics_open_core/provider/game_provider.dart';
 import 'package:techagogics_open_core/screens/canvas/canvas_screen.dart';
+import 'package:techagogics_open_core/screens/presentation/style.dart';
+import 'package:techagogics_open_core/screens/presentation/widget/mix_demo.dart';
 import '../widgets/game_card.dart';
 import 'quiz/quiz_game_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:superdeck/superdeck.dart';
+import 'package:superdeck/models/options_model.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({Key? key}) : super(key: key);
@@ -39,6 +43,29 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       gameDescription: 'Draw together!',
       gameScreen: CanvasScreen(),
     ),
+    GameCard(
+        gameTitle: 'Slide',
+        gameDescription: 'Lets watch some Slides!',
+        gameScreen: SuperDeckApp(
+          style: style,
+          examples: [
+            Example(
+              name: 'demo',
+              schema: ExampleOptions.schema,
+              builder: (args) {
+                return Center(
+                  child: Container(
+                    height: args.height,
+                    width: args.width,
+                    color: Colors.blue,
+                    alignment: Alignment.center,
+                    child: Text(args.text),
+                  ),
+                );
+              },
+            ),
+          ],
+        ))
   ];
 
   @override
