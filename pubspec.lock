@@ -633,10 +633,17 @@ packages:
     dependency: transitive
     description:
       name: supabase
+<<<<<<< HEAD
       sha256: cd3d6bcc6b15ffd6eacea92ec2a2d9f09bf72c8a95c09a14f3b523ae9ee99cb6
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+=======
+      sha256: ef407187b18c440f4a5c3f3cf30eb5cc1daadd4ff5616febf445a37e0e0ed34e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
+>>>>>>> b2969a65d91dbed15b24a090e92831fc54a5bed7
   supabase_flutter:
     dependency: "direct main"
     description:
