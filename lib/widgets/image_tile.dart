@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/image_model.dart';
-import '../provider/game_provider.dart';
 
 class ImageTile extends StatelessWidget {
   final ImageModel image;
@@ -176,7 +175,6 @@ class ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('onTap = $onTap');
     return Animate(
       key: ValueKey(image.id),
       effects: const [FadeEffect()],
