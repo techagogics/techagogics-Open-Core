@@ -13,11 +13,14 @@ class GameProvider with ChangeNotifier {
   ImageModel? _selectedImage;
   int _score = 0;
   int get score => _score;
+  bool _isEvaluating = false;
+  bool get isEvaluating => _isEvaluating;
 
   GameProvider();
 
   void selectImage(ImageModel image) {
     _selectedImage = image;
+    _isEvaluating = true;
 
     // Logik, um zu bestimmen, ob die Auswahl richtig oder falsch ist
     _isCorrectChoice = image.isFake;
@@ -57,11 +60,9 @@ class GameProvider with ChangeNotifier {
 
     _lastImageIds = newImageIds;
     _images = randomImages;
-
-    // Verzögern Sie den Aufruf von notifyListeners
-    Future.delayed(Duration.zero, () {
-      notifyListeners();
-    });
+    _isEvaluating = false;
+    
+    notifyListeners();
   }
 
   List<ImageModel> getRandomImages(List<ImageModel> images) {

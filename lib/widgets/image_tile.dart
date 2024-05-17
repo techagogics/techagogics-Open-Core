@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/image_model.dart';
+import '../provider/game_provider.dart';
 
 class ImageTile extends StatelessWidget {
   final ImageModel image;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool? isSelected;
   final bool isCorrectChoice;
 
@@ -175,6 +176,7 @@ class ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('onTap = $onTap');
     return Animate(
       key: ValueKey(image.id),
       effects: const [FadeEffect()],
@@ -194,6 +196,7 @@ class ImageTile extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
+            // image
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
@@ -206,6 +209,7 @@ class ImageTile extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
+            // button overlay when not clicked
             if (isSelected != true)
               Positioned(
                 left: 10,
@@ -225,6 +229,7 @@ class ImageTile extends StatelessWidget {
                   onPressed: () => _zoomImage(context),
                 ),
               ),
+            // overlay when clicked
             if (isSelected ?? false)
               Animate(
                 key: UniqueKey(),
