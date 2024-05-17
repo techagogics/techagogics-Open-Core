@@ -20,7 +20,7 @@ Future<List<Map<String, dynamic>>> fetchImages() async {
 Future<List<ImageModel>> fetchImagesAsModels() async {
   try {
     final List<Map<String, dynamic>> imageData = await fetchImages();
-    // Konvertieren Sie die Rohdaten in ImageModel-Objekte
+    // convert raw data in ImageModel objects
     return imageData.map((imageMap) => ImageModel.fromJson(imageMap)).toList();
   } catch (e) {
     throw Exception('Failed to load images: $e');

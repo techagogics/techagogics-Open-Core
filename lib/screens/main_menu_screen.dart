@@ -53,9 +53,9 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: ElevatedButton(
                 style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
+                    padding: WidgetStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(horizontal: 0)),
-                    shape: MaterialStateProperty.all<CircleBorder>(
+                    shape: WidgetStateProperty.all<CircleBorder>(
                       const CircleBorder(),
                     )),
                 onPressed: () {},

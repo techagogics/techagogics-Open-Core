@@ -6,7 +6,7 @@ import '../models/image_model.dart';
 
 class ImageTile extends StatelessWidget {
   final ImageModel image;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool? isSelected;
   final bool isCorrectChoice;
 
@@ -194,6 +194,7 @@ class ImageTile extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
+            // image
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
@@ -206,6 +207,7 @@ class ImageTile extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
+            // button overlay when not clicked
             if (isSelected != true)
               Positioned(
                 left: 10,
@@ -225,6 +227,7 @@ class ImageTile extends StatelessWidget {
                   onPressed: () => _zoomImage(context),
                 ),
               ),
+            // overlay when clicked
             if (isSelected ?? false)
               Animate(
                 key: UniqueKey(),
