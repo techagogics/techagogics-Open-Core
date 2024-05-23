@@ -60,7 +60,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                     )),
                 onPressed: () {},
                 child: SvgPicture.asset(
-                  'images/logo/techagogics_logo-bildmarke.svg',
+                  'assets/images/logo/techagogics_logo-bildmarke.svg',
                 ),
               ),
             ),

@@ -386,7 +386,7 @@ class _CanvasPageState extends State<CanvasScreen> {
                     super.dispose();
                   },
                   child: SvgPicture.asset(
-                    'images/logo/techagogics_logo-bildmarke.svg',
+                    'assets/images/logo/techagogics_logo-bildmarke.svg',
                   ),
                 ),
               ),

@@ -52,7 +52,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
                     Navigator.pop(context);
                   },
                   child: SvgPicture.asset(
-                    'images/logo/techagogics_logo-bildmarke.svg',
+                    'assets/images/logo/techagogics_logo-bildmarke.svg',
                   ),
                 ),
               ),
