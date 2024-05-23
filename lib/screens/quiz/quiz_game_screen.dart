@@ -30,7 +30,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gameProvider = Provider.of<GameProvider>(context, listen: false);
+    final gameProvider = Provider.of<GameProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -72,15 +72,11 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
                   children: [
                     Align(
                       widthFactor: 0.8,
-                      child: Consumer<GameProvider> (
-                        builder: (context, game, child) { 
-                          return GameAvatar(
+                      child: GameAvatar(
                             backgroundColor: RandomColor.getRandomFromId(id),
-                            score: game.userScores[id]?.score.toString() ??
-                              '${game.score}',
-                          );
-                      },
-                    ),
+                            score: gameProvider.userScores[id]?.score.toString() ??
+                              '${gameProvider.score}',
+                          )
                 ),],
                 ),
               )

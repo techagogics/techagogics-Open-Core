@@ -40,9 +40,7 @@ class GameProvider with ChangeNotifier {
   late final String _myId = const Uuid().v4();
   String get myId => _myId;
 
-  GameProvider() {
-    debugPrint('new Uuid = $myId');
-  }
+  GameProvider() {}
 
   Future<void> initializeQuiz() async {
     // Start listening to broadcast messages to display other users' scores.
@@ -67,7 +65,6 @@ class GameProvider with ChangeNotifier {
       )
       .onPresenceJoin((payload) {
         final joinedId = payload.newPresences.first.payload['id'] as String;
-        debugPrint('New presence joined: $joinedId');
         _addUserToUsersList(joinedId);
         sendScore(_score);
       })
@@ -94,9 +91,7 @@ class GameProvider with ChangeNotifier {
     if (myId == newId) return;
     if (!_userScores.containsKey(newId)) {
       if (_userScores[newId] != null) {
-        inspect(_userScores);
         _userScores[newId] = UserScore(id: newId, score: 0);
-        debugPrint('New ID added: $newId');
         notifyListeners();
       }
     }
@@ -145,20 +140,17 @@ class GameProvider with ChangeNotifier {
   }
   
   void getAllImages() async {
-    debugPrint('getAllImages() start');
     _allImages = await fetchImagesAsModels();
     loadNewImages();
   }
 
   void loadNewImages() {
-    debugPrint('loadNewImages() start');
     final randomImages = getRandomImages(_allImages);
 
     // Prevent getting same pictures
     Set<int> newImageIds = randomImages.map((e) => e.id).toSet();
     if (_lastImageIds.isNotEmpty &&
         _lastImageIds.intersection(newImageIds).isNotEmpty) {
-      debugPrint('loadNewImages() if geht rein und ruft erneut loadNewImages() auf');
       loadNewImages();
       return;
     }
