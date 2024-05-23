@@ -173,6 +173,12 @@ class ImageTile extends StatelessWidget {
     );
   }
 
+  Color evalColor() {
+    return isCorrectChoice 
+      ? Colors.green.withOpacity(0.5)
+      : Colors.red.withOpacity(0.5);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Animate(
@@ -181,9 +187,10 @@ class ImageTile extends StatelessWidget {
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected == true
-              ? isCorrectChoice
-                  ? Colors.green.withOpacity(0.5)
-                  : Colors.red.withOpacity(0.5)
+              ? evalColor()
+              : Colors.transparent,
+          disabledBackgroundColor: isSelected == true
+              ? evalColor()
               : Colors.transparent,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
@@ -193,20 +200,28 @@ class ImageTile extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // image
+            // Image
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 image.url,
-                loadingBuilder: (context, child, loadingProgress) =>
-                    loadingProgress == null
-                        ? child
-                        : const Center(child: CircularProgressIndicator()),
+                frameBuilder: (
+                  context,
+                  child, 
+                  frame,
+                  wasSynchronouslyLoaded,
+                ) {
+                  return frame != null 
+                    ? child 
+                    : const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                },
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
             ),
-            // button overlay when not clicked
+            // Button overlay when not clicked
             if (isSelected != true)
               Positioned(
                 left: 10,
@@ -226,7 +241,7 @@ class ImageTile extends StatelessWidget {
                   onPressed: () => _zoomImage(context),
                 ),
               ),
-            // overlay when clicked
+            // Overlay when selected
             if (isSelected ?? false)
               Animate(
                 effects: const [FadeEffect()],
@@ -236,9 +251,7 @@ class ImageTile extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: isCorrectChoice
-                          ? Colors.green.withOpacity(0.5)
-                          : Colors.red.withOpacity(0.5),
+                      color: evalColor(),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     alignment: Alignment.center,

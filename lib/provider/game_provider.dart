@@ -7,7 +7,6 @@ import '../services/supabase/supabase_constants.dart';
 import '../services/supabase/supabase_manager.dart';
 import '../services/supabase/supabase_service.dart';
 import '../models/image_model.dart';
-import 'dart:developer';
 
 class GameProvider with ChangeNotifier {
   // Quiz Game

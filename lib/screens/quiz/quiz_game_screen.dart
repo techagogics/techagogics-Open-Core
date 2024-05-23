@@ -84,8 +84,8 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
             const SizedBox(width: 20),
           ]),
         body: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: MediaQueryUtil.getCrossAxisCount(context),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
           ),
           itemCount: gameProvider.images.length,
           itemBuilder: (BuildContext context, int index) {
