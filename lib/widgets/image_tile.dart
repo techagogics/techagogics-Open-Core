@@ -176,7 +176,6 @@ class ImageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Animate(
-      key: ValueKey(image.id),
       effects: const [FadeEffect()],
       child: ElevatedButton(
         onPressed: onTap,
@@ -230,7 +229,6 @@ class ImageTile extends StatelessWidget {
             // overlay when clicked
             if (isSelected ?? false)
               Animate(
-                key: UniqueKey(),
                 effects: const [FadeEffect()],
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
