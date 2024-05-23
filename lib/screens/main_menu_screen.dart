@@ -28,7 +28,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
           builder: (context, gameProvider, child) {
             if (gameProvider.images.isEmpty) {
               // Beim ersten Laden oder wenn keine Bilder vorhanden sind
-              gameProvider.loadNewImages(); // Lädt neue Bilder
+              gameProvider.getAllImages(); // Lädt neue Bilder
               return const Center(child: CircularProgressIndicator());
             }
             return QuizGameScreen(images: gameProvider.images);
